@@ -1,0 +1,75 @@
+---
+title: "Loan_Project"
+author: "zidani"
+date: "8/28/2020"
+output: html_document
+---
+```{r}
+library(tidyverse)
+library(forcats)
+library(recipes)
+library(ggplot2)
+library(tidyquant)
+library(caret)
+library(dplyr)
+library(lime)
+library(arules)
+library(xgboost)
+library(pROC)
+library(gridExtra)
+library(corrr)
+library(lime)
+```
+
+```{r}
+dt1 <- read.csv(file.choose(), header = T)
+str(dt1)
+
+```
+The data contains 5000 observations and 14 variables. The target variable “Personal Loan” is seen as an integer, hence we need to convert it to factor and then check for missing values.
+
+
+```{r}
+library (readxl)
+dt2<-read_excel("C:/Users/ho/Desktop/Data science with R/data/Thera Bank_Personal_Loan_Modelling-dataset.xlsx", sheet = 2)
+str(dt2)
+
+```
+
+```{r}
+
+sapply(dt2, function(x) sum(is.na(x)))
+
+mean(is.na(dt2))
+```
+
+
+Using the sapply function to check for missing values, we observed that there are 18 missing values in our data set.So we will replace the missing values  with the median.
+
+
+```{r}
+# mutate missing values
+loan_mutate <-dt2 %>%
+  mutate(Family .members
+         = replace(Family .members,
+                   is.na(Family .members),
+                   median(Family members, na.rm = TRUE)))
+```
+
+verifying the changes made to missing values
+
+```{r}
+
+sapply(loan_mutate, function(x) sum(is.na(x)))
+
+```
+
+
+```{r}
+#df = subset(mydata, select = -c(x,z) )
+
+
+loan_mutate =  subset(loan_mutate, select-c(ID,ZIP.Code))
+str(loan_mutate)
+
+```
