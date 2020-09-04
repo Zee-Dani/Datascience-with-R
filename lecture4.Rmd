@@ -1,0 +1,78 @@
+---
+title: "lecture4"
+author: "zidani"
+date: "7/24/2020"
+output: html_document
+---
+
+one sample test
+
+```{r}
+dt <- read.csv("data/diamond.csv")
+dt
+
+``` 
+Testing for the average price of diamond at 0.05 CI
+```{r}
+t.test(dt$price,mu=3000,alternative = "greater")#null hypothesis is mu,greater=>alternative hypothesis
+sd(dt$price)
+length(dt$price)#this gives the total length of row which we are using as the number of elements 
+#remember to subtract the header row toget actual number of column
+#t-test (t=(m-u)/(3989.44/sqrt(sd)))
+
+```
+since the value of the p value is less than 0.05 we accept the alternative hypothesis 
+```{r}
+t.test(dt$price,mu=3000,alternative = "less")
+```
+
+```{r}
+tem<-read.csv('data/tem.csv')
+tem
+```
+
+```{r}
+library(MASS)
+#?levene.test
+library(car)
+```
+H0:v1 = v2 ,H1:v1 != v2 ,alpha =0.05
+Decision:
+
+
+
+```{r}
+leveneTest(tem$Temperature~tem$Season)
+```
+
+```{r}
+leveneTest(tem$Temperature~as.factor(tem$Season))
+```
+
+
+```{r}
+str(tem)
+```
+
+```{r}
+t.test(tem$Temperature~as.factor(tem$Season),var.equal=T)
+```
+
+new
+```{r}
+library(dplyr)
+tem%>%group_by(Season)%>%var(tem$Temperature)
+```
+
+```{r}
+attach(tem)
+tem%>%group_by(Season)%>%var(tem$Temperature)
+```
+```{r}
+tep<-tem
+tep$Season<-as.factor(tep$Season)
+tep%>%group_by(Season)%>%var(Temprature)
+```
+
+```{r}
+```
